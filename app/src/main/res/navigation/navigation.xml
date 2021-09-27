@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/catOrDuckFragment">
+
+    <fragment
+        android:id="@+id/catOrDuckFragment"
+        android:name="com.enty.ilinkcatsandducks.ui.cats_ducks.CatOrDuckFragment"
+        android:label="fragment_cat_or_duck"
+        tools:layout="@layout/fragment_cat_or_duck" />
+</navigation>
