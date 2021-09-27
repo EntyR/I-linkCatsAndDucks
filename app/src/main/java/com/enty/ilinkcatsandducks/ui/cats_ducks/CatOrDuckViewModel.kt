@@ -7,10 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enty.ilinkcatsandducks.common.Resource
+import com.enty.ilinkcatsandducks.data.db.FavoriteDataBase
+import com.enty.ilinkcatsandducks.data.db.ImageItemModel
 import com.enty.ilinkcatsandducks.data.remote.CatsApi
 import com.enty.ilinkcatsandducks.data.remote.DucksApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
@@ -19,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CatOrDuckViewModel @Inject constructor(
     val catsApi: CatsApi,
-    val ducksApi: DucksApi
+    val ducksApi: DucksApi,
+    val dataBase: FavoriteDataBase
 ): ViewModel() {
 
     private val _imageUrl = MutableLiveData<Resource<String>>()
@@ -30,7 +34,6 @@ class CatOrDuckViewModel @Inject constructor(
             try {
                 _imageUrl.postValue(Resource.Loading())
                 val request = catsApi.getRandomCat()
-                Log.e(TAG, "loadCat: ${request.url}")
                 _imageUrl.postValue(Resource.Success(request.url))
             }
             catch (e: HttpException){
@@ -58,5 +61,12 @@ class CatOrDuckViewModel @Inject constructor(
                 _imageUrl.postValue(Resource.Error(e.message?: "Connection problem"))
             }
         }
+    }
+
+    fun addAnimal(imageUrl: String){
+        viewModelScope.launch(Dispatchers.IO){
+            dataBase.getDao().addImage(ImageItemModel(imageUrl))
+        }
+
     }
 }

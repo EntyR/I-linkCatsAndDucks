@@ -6,10 +6,15 @@
         <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3828125" />
         <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/drawable/cat_black_face.xml" value="0.22135416666666666" />
         <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/drawable/duck.xml" value="0.22135416666666666" />
+        <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/drawable/find.xml" value="0.22135416666666666" />
         <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/drawable/ic_android_black_24dp.xml" value="0.22135416666666666" />
         <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/drawable/searching_magnifying_glass.xml" value="0.22135416666666666" />
         <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
         <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/layout/fragment_cat_or_duck.xml" value="0.25" />
+        <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/layout/fragment_favorite.xml" value="0.20520833333333333" />
+        <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/layout/image_item.xml" value="0.20520833333333333" />
+        <entry key="..\:/_NotSystem/AndroidProjects/IlinkCatsAndDucks/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>

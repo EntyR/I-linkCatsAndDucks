@@ -3,7 +3,7 @@ package com.enty.ilinkcatsandducks.ui.cats_ducks
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.content.ContentValues.TAG
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -24,10 +24,21 @@ import com.enty.ilinkcatsandducks.R
 import com.enty.ilinkcatsandducks.common.Resource
 import com.enty.ilinkcatsandducks.databinding.FragmentCatOrDuckBinding
 import dagger.hilt.android.AndroidEntryPoint
+import android.view.MotionEvent
+
+import android.view.GestureDetector
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.View.OnTouchListener
+import androidx.core.view.GestureDetectorCompat
+
+
+
+
 
 @AndroidEntryPoint
 class CatOrDuckFragment : Fragment() {
 
+    val TAG = "CatOrDuckFragment"
     private lateinit var binding: FragmentCatOrDuckBinding
     private var btnPressed = false
     private val viewModel: CatOrDuckViewModel by viewModels()
@@ -38,8 +49,16 @@ class CatOrDuckFragment : Fragment() {
     ): View? {
         binding = FragmentCatOrDuckBinding.inflate(inflater, container, false)
 
+        setUpDoubleTab {
+            loadImg()
+        }
+
+        binding.ivLike.setOnClickListener {
+            loadImg()
+        }
+
         viewModel.imageUrl.observe(viewLifecycleOwner, Observer {
-            Log.e(TAG, "onCreateView: ${it.data}")
+            Log.e(TAG, "Resource data: ${it.data}")
             when (it) {
                 is Resource.Success -> {
                     loadImg(it.data!!, binding.ivAnimal)
@@ -59,6 +78,10 @@ class CatOrDuckFragment : Fragment() {
                 if (view == null) return
                 if (!btnPressed) {
                     startAnimation()
+                    btnPressed = true
+                } else {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.ivAnimal.visibility = View.INVISIBLE
                 }
                 when (view.id) {
                     R.id.btDuck -> {
@@ -85,16 +108,16 @@ class CatOrDuckFragment : Fragment() {
         val img = binding.flContainer
         val anim = ValueAnimator.ofInt(img.height, 500)
         anim.addUpdateListener { valueAnimator ->
-            val `val` = valueAnimator.animatedValue as Int
+            val valueAnimator = valueAnimator.animatedValue as Int
             val layoutParams: ViewGroup.LayoutParams = img.getLayoutParams()
-            layoutParams.height = `val`
+            layoutParams.height = valueAnimator
             img.setLayoutParams(layoutParams)
         }
         anim.duration = 200
         anim.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
                 super.onAnimationStart(animation)
-//                img.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.INVISIBLE
             }
 
             override fun onAnimationEnd(animation: Animator?) {
@@ -103,6 +126,15 @@ class CatOrDuckFragment : Fragment() {
             }
         })
         anim.start()
+    }
+
+    private  fun loadImg(){
+        if (viewModel.imageUrl.value is Resource.Success){
+            viewModel.imageUrl.value?.data?.let {
+                viewModel.addAnimal(it)
+                Toast.makeText(context, "Image added to favorite", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun loadImg(url: String, view: ImageView){
@@ -127,7 +159,8 @@ class CatOrDuckFragment : Fragment() {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    Log.e(TAG, "onLoadSccess: ")
+
+                    binding.ivAnimal.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.INVISIBLE
                     binding.ivAnimal.setImageDrawable(resource)
 
@@ -136,6 +169,61 @@ class CatOrDuckFragment : Fragment() {
             })
             .centerCrop()
             .into(view)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun setUpDoubleTab(onDoubleTab: ()->Unit){
+
+        val listener: SimpleOnGestureListener = object : SimpleOnGestureListener() {
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                Toast.makeText(context, "onDoubleTap", Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            override fun onDown(e: MotionEvent?): Boolean {
+                return true
+            }
+
+            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                return true
+            }
+
+            override fun onDoubleTapEvent(e: MotionEvent?): Boolean {
+                Toast.makeText(context, "Image added to favorite", Toast.LENGTH_SHORT).show()
+                return true
+            }
+        }
+
+        val doubleListener: GestureDetector.OnDoubleTapListener = object : GestureDetector.OnDoubleTapListener {
+            override fun onSingleTapConfirmed(p0: MotionEvent?): Boolean {
+
+                return true
+            }
+
+            override fun onDoubleTapEvent(p0: MotionEvent?): Boolean {
+
+                return true
+            }
+
+            override fun onDoubleTap(p0: MotionEvent?): Boolean {
+
+                onDoubleTab()
+                return true
+            }
+        }
+
+        val detector = GestureDetectorCompat(requireContext(), listener)
+
+
+        detector.setIsLongpressEnabled(true)
+
+        detector.setOnDoubleTapListener(doubleListener)
+
+        binding.ivAnimal.setOnTouchListener { view, motionEvent ->
+            detector.onTouchEvent(motionEvent)
+        }
+
+
     }
 
 

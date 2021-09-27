@@ -24,8 +24,19 @@
             android:id="@+id/ivAnimal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
-             />
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/ivLike"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="6dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_favorite_24" />
+
 
         <ProgressBar
             android:id="@+id/progressBar"

@@ -9,5 +9,18 @@
         android:id="@+id/catOrDuckFragment"
         android:name="com.enty.ilinkcatsandducks.ui.cats_ducks.CatOrDuckFragment"
         android:label="fragment_cat_or_duck"
-        tools:layout="@layout/fragment_cat_or_duck" />
+        tools:layout="@layout/fragment_cat_or_duck" >
+        <action
+            android:id="@+id/action_catOrDuckFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.enty.ilinkcatsandducks.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_catOrDuckFragment"
+            app:destination="@id/catOrDuckFragment" />
+    </fragment>
 </navigation>
